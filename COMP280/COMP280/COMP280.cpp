@@ -10,101 +10,54 @@
 using namespace std;
 
 
-class node {
+class queue {
+private:
+	int* arr;			//declaration of an array
+	int head, tail;		//head and tail values
+	int size;			//size of queue
+	queue() {
+		size = 8;
+		arr = new int[8];
+		head = tail = -1;
+	}
 public:
-	int data;	//the data that will be stored into the node
-	node* next;	//the node after the current one
-	node* prev;	//the node after the previous one
+	void enqueue(int k) {
+		if (head == -1) {
+			arr[0] = k;
+			head = tail = 0;
+			return;
+		}
+		tail = (tail + 1) % size;
+		arr[tail] = k;
+	}
+	int dequeue() {
+		if (head == -1) {
+			return -1;
+		}
+		int k = arr[head];
+	}
+	void print() {
+		int i = head;
+		while (1) {
+			std::cout << arr[i] << " ";
+
+			if (i == tail) {
+				break;
+			}
+
+			i = (i + 1) % size;
+		}
+		std::cout << std::endl;
+	}
 };
-
-void print(node* head) {	//method header, receives in a node/linked list and prints out everything after it
-	while (head != NULL) {	//while the head/linked list is not equal to null
-		std::cout << head->data << "\n";	//prints out each data type out
-		head = head->next;	//head is then equal to the next node
-	}
-}
-
-node* insert(node* head, int k) {	//inserts a new node to the linked list
-	node* newNode = new node();		//creates a new node called newNode
-	newNode->data = k;				//newNodes data variable is now equal to int k
-	newNode->next = head;			//newNode is now placed in front of the head
-
-	return newNode;					//newNode is returned
-}
-
-node* insertPos(node* head, int k, int p) {	//method header that receives the node, the int value that will be placed as data, and another int that will be to position
-	node* newNode = new node();				//creates a new node called newNode
-	newNode->data = k;						//newNodes data is set to 'k' value
-	//newNode->next = ??;
-	//find the node in where k must be inserted
-	node* q = head;							//new node 'q' is equal to 'head'
-	for (int i = 0; i < p - 1; i++) {
-		q = q->next;
-	}
-	newNode->next = q->next;				//the next node of head/q is also the next node of newNode
-	q->next = newNode;						//the next node after q is equal to newNode
-
-	return head;							//returns back the head
-}
-
-int length(node* head) {	//method header that receives in a node
-	int counter = 0;		//int counter that figures out how many nodes are in the head
-	node* p = head;			//node p is equal to head
-
-	while (p != NULL) {		//while p is not equal to null
-		counter++;			//increments counter by one
-		p = p->next;		//goes to the next node in the linked list
-	}
-
-	return counter;			//return counter which is the length of the list
-}
-
-node* reverse(node* head) {
-
-	if (head == NULL) {
-		return NULL;
-	}
-
-	if (head->next == NULL) {
-		return head;
-	}
-
-	node* q = head->next;
-	node* p = reverse(head->next);
-
-	head->next = NULL;
-	q->next = head;
-
-
-	return p;
-}
-
-node* delete_head(node* head) {
-	if (head == NULL) {		//if statement that is performed if head = null
-		return NULL;		//returns back null
-	}
-	node* p = head->next;	//'p' is everything after the head
-	delete head;			//this deletes the head
-
-	return p;				//return 'p' as the final node
-}
 
 int main()
 {
-	node* head = new node();
+	queue q;
 
-	head->data = 1;
-	head->next = NULL;
-
-	head = insert(head, 5);
-	head = insert(head, 3);
-	head = insertPos(head, 7, 2);
-
-	print(head);
-	std::cout << "\n";
-	head = reverse(head);
-	print(head);
-	std::cout << "number of nodes = " << length(head) << std::endl;
+	q.enqueue(1);
+	q.enqueue(2);
+	q.enqueue(3);
 
 	return 0;
 
