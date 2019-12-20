@@ -10,54 +10,61 @@
 using namespace std;
 
 
-class queue {
+class queue {			//constructor code for queues
 private:
 	int* arr;			//declaration of an array
 	int head, tail;		//head and tail values
 	int size;			//size of queue
 	queue() {
-		size = 8;
-		arr = new int[8];
-		head = tail = -1;
+		size = 8;				//set current size of the queue to '8'
+		arr = new int[8];		//'arr' is set to have 8 elements
+		head = tail = -1;		//both head and tail is equal to 1, due to the fact that it hasn't been initialized
 	}
 public:
-	void enqueue(int k) {
-		if (head == -1) {
-			arr[0] = k;
-			head = tail = 0;
-			return;
+	void enqueue(int k) {		//adds onto the queue
+		if (head == -1) {			//if statement incase 'head' = -1
+			arr[0] = k;				//adds the int 'k' to the first element of the array
+			head = tail = 0;		//sets both tail and head = to 0
+			return;					//ends the method call
 		}
-		tail = (tail + 1) % size;
-		arr[tail] = k;
+		tail = (tail + 1) % size;	//adds 1 to tail and find the modulus of the queue's size
+		arr[tail] = k;				//sets 'k' to the tail of the array
 	}
-	int dequeue() {
-		if (head == -1) {
-			return -1;
+	int dequeue() {			//deletes the head
+		if (head == -1) {		//if statement incase 'head' = -1
+			return -1;			//returns a -1 meaning that there is no values in the array
 		}
-		int k = arr[head];
+		int k = arr[head];		//sets 'k' = to the 'head' value of the array
+		if(head == tail) {			//if statement incase head and tail are both the same
+			head = tail = -1;		//both head and tail equals -1
+		}
+		else {
+			head = (head + 1) % size;	//adds 1 to head and find the modulus of the queue's size
+		}
+		return k;		//returns the deleted value
 	}
-	void print() {
-		int i = head;
-		while (1) {
-			std::cout << arr[i] << " ";
+	void print() {		//prints out all the values of the queue
+		int i = head;		//'i' is equal to 'head'
+		while (1) {		//iterates until while loop is broken
+			std::cout << arr[i] << " ";		//prints out the value of 'i'/the current element
 
-			if (i == tail) {
-				break;
+			if (i == tail) {	//if 'i' is equal to tail
+				break;			//breaks the while loop
 			}
 
-			i = (i + 1) % size;
+			i = (i + 1) % size;		//adds 1 to 'i' and find the modulus of the queue's size
 		}
-		std::cout << std::endl;
+		std::cout << std::endl;		//prints a new line
 	}
 };
 
 int main()
 {
-	queue q;
-
-	q.enqueue(1);
-	q.enqueue(2);
-	q.enqueue(3);
+	queue q;			//creates a queue
+		
+	q.enqueue(1);		//adds the value 1 into the queue
+	q.enqueue(2);		//adds 2
+	q.enqueue(3);		//adds 3
 
 	return 0;
 
